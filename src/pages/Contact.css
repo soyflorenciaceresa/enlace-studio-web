@@ -1,0 +1,147 @@
+.contact {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  min-height: 100vh;
+  background: #FAFBF8;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.contact-heading {
+  position: absolute;
+  left: 2%;
+  top: 17.62%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--heading);
+  font-weight: 400;
+  font-size: clamp(24px, 2.78vw, 48px);
+  line-height: 1;
+  color: #000;
+}
+
+.contact-heading span {
+  display: block;
+}
+
+.contact-email {
+  position: absolute;
+  left: 2%;
+  top: 35.44%;
+  font-size: 14px;
+  color: #000;
+}
+
+.contact-email p {
+  margin: 0;
+}
+
+.contact-email a {
+  color: #000;
+  text-decoration: none;
+}
+
+.contact-email a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.contact-links {
+  position: absolute;
+  left: 20.89%;
+  top: 35.44%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3.7vw, 64px);
+  font-size: 14px;
+  color: #000;
+}
+
+.contact-links p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.contact-links a {
+  color: #000;
+  text-decoration: none;
+}
+
+.contact-links a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.contact-image {
+  position: absolute;
+  right: 2%;
+  top: 72.81%;
+  width: clamp(76px, min(12.73vw, 22.4vh), 220px);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.contact-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.contact-copy {
+  position: absolute;
+  left: 2%;
+  top: 94.19%;
+  margin: 0;
+  font-size: 14px;
+  color: #000;
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 640px) {
+  .contact {
+    height: auto;
+    min-height: 100svh;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 40px;
+    padding: 20px 20px 24px;
+  }
+
+  .site-nav--overlay {
+    order: 1;
+  }
+
+  .contact-heading {
+    position: static;
+    order: 2;
+    font-size: clamp(28px, 8vw, 40px);
+  }
+
+  .contact-email {
+    position: static;
+    order: 3;
+  }
+
+  .contact-links {
+    position: static;
+    order: 4;
+    gap: 24px;
+  }
+
+  .contact-image {
+    position: static;
+    order: 5;
+    width: 160px;
+  }
+
+  .contact-copy {
+    position: static;
+    order: 6;
+    margin-top: auto;
+  }
+}

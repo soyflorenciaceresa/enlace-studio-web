@@ -1,0 +1,73 @@
+.projects-carousel {
+  width: 100%;
+  overflow: hidden;
+}
+
+.projects-carousel-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation-name: projects-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.projects-carousel:hover .projects-carousel-track {
+  animation-play-state: paused;
+}
+
+.projects-carousel-card {
+  flex: none;
+  width: clamp(200px, 24.86vw, 430px);
+  aspect-ratio: 429.5 / 570;
+  background: #d9d9d9;
+  overflow: hidden;
+}
+
+.projects-carousel-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@keyframes projects-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---- Vertical orientation (slides bottom to top) ---- */
+.projects-carousel--vertical {
+  height: 100%;
+}
+
+.projects-carousel--vertical .projects-carousel-track {
+  flex-direction: column;
+  width: 100%;
+  height: max-content;
+  animation-name: projects-scroll-vertical;
+}
+
+.projects-carousel--vertical .projects-carousel-card {
+  width: 100%;
+  height: auto;
+}
+
+@keyframes projects-scroll-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .projects-carousel-track {
+    animation: none;
+  }
+}
