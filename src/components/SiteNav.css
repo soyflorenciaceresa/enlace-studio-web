@@ -23,7 +23,7 @@
   font-weight: 400;
 }
 
-.site-nav nav ul {
+.site-nav-menu ul {
   display: flex;
   gap: 24px;
   list-style: none;
@@ -31,7 +31,7 @@
   padding: 0;
 }
 
-.site-nav nav a {
+.site-nav-menu a {
   font-size: 14px;
   color: #000;
   text-decoration: none;
@@ -39,20 +39,83 @@
   transition: opacity 0.15s ease;
 }
 
-.site-nav nav a:hover,
-.site-nav nav a.active {
+.site-nav-menu a:hover,
+.site-nav-menu a.active {
   opacity: 1;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
+/* ---- Hamburger toggle (hidden on desktop) ---- */
+.site-nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.site-nav-toggle span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: #000;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.site-nav.is-open .site-nav-toggle span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.site-nav.is-open .site-nav-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.site-nav.is-open .site-nav-toggle span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
 @media (max-width: 640px) {
   .site-nav--overlay {
-    position: static;
+    position: relative;
   }
 
-  .site-nav nav ul {
-    gap: 16px;
-    flex-wrap: wrap;
+  .site-nav-toggle {
+    display: flex;
+  }
+
+  .site-nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #FAFBF8;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .site-nav.is-open .site-nav-menu {
+    max-height: 320px;
+  }
+
+  .site-nav-menu ul {
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 0;
+  }
+
+  .site-nav-menu a {
+    display: block;
+    padding: 12px 20px;
   }
 }
