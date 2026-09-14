@@ -2,23 +2,52 @@ import { useEffect, useRef, useState } from 'react'
 import SiteNav from '../components/SiteNav'
 import Footer from '../components/Footer'
 import RotatingImage from '../components/RotatingImage'
-import ProjectsCarousel from '../components/ProjectsCarousel'
 import './Studio.css'
 
-const services = [
-  'Branding',
-  'Visual identity',
-  'Social media',
-  'Web design',
-  'Naming',
-  'Packaging',
-  'Art direction',
+const servicePositions = [
+  { top: '0%', left: '0%' },
+  { top: '58%', left: '55%' },
+  { top: '12%', left: '62%' },
+  { top: '65%', left: '5%' },
+  { top: '30%', left: '30%' },
+  { top: '2%', left: '58%' },
+  { top: '68%', left: '32%' },
 ]
 
-const servicesCarouselImages = Array.from(
-  { length: 8 },
-  (_, i) => `https://picsum.photos/seed/enlace-services-${i + 1}/700/340`,
-)
+const services = [
+  {
+    name: 'Branding',
+    description: 'Construimos marcas con una idea central sólida que guía cada decisión.',
+  },
+  {
+    name: 'Visual identity',
+    description: 'Sistemas visuales coherentes que dan forma y personalidad a cada marca.',
+  },
+  {
+    name: 'Social media',
+    description: 'Contenido y estrategia para conectar marcas con sus comunidades.',
+  },
+  {
+    name: 'Web design',
+    description: 'Sitios y experiencias digitales pensadas para las personas.',
+  },
+  {
+    name: 'Naming',
+    description: 'Nombres memorables que capturan la esencia de cada proyecto.',
+  },
+  {
+    name: 'Packaging',
+    description: 'Diseño de packaging que destaca en el punto de venta.',
+  },
+  {
+    name: 'Art direction',
+    description: 'Dirección de arte que da coherencia visual a cada pieza.',
+  },
+].map((service, i) => ({
+  ...service,
+  image: `https://picsum.photos/seed/enlace-service-${i + 1}/220/220`,
+  position: servicePositions[i % servicePositions.length],
+}))
 
 const clientNames = [
   'Abante',
@@ -41,6 +70,17 @@ const clientNames = [
   'Socialmood',
 ]
 
+const teamMembers = [
+  { name: 'Ana García', role: 'Directora creativa' },
+  { name: 'Marc Soler', role: 'Diseño gráfico' },
+  { name: 'Laura Pons', role: 'Diseño digital' },
+  { name: 'Diego Ruiz', role: 'Estrategia de marca' },
+  { name: 'Nora Vidal', role: 'Producción' },
+].map((member, i) => ({
+  ...member,
+  image: `https://picsum.photos/seed/enlace-team-${i + 1}/500/724`,
+}))
+
 const staticImage = 'https://picsum.photos/seed/enlace-studio-static/806/816'
 const rotatingImages = [
   'https://picsum.photos/seed/enlace-studio-rotate-1/806/816',
@@ -54,6 +94,10 @@ const methodologyCopy = `De la suma de la estrategia y el diseño centrado en la
 surge nuestra metodología, aportando la flexibilidad que las marcas
 necesitan para ir más allá de las barreras de su industria y
 pertenencia.`
+
+const teamCopy = `Detrás de cada proyecto hay un equipo multidisciplinar que combina
+estrategia, diseño y producción, aportando distintas miradas para dar
+forma a ideas que conectan con las personas.`
 
 function useInView(threshold = 0.25) {
   const ref = useRef(null)
@@ -78,38 +122,41 @@ function useInView(threshold = 0.25) {
   return [ref, visible]
 }
 
-function ServicesList({ items }) {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const itemRefs = useRef([])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
-          const idx = itemRefs.current.indexOf(entry.target)
-          if (idx !== -1) setActiveIndex(idx)
-        })
-      },
-      { rootMargin: '-45% 0px -45% 0px', threshold: 0 },
-    )
-
-    itemRefs.current.forEach((el) => el && observer.observe(el))
-    return () => observer.disconnect()
-  }, [items])
+function ServicesSection({ items }) {
+  const [activeIndex, setActiveIndex] = useState(null)
 
   return (
-    <h2 className="studio-services-heading">
-      {items.map((service, i) => (
-        <span
-          key={service}
-          ref={(el) => (itemRefs.current[i] = el)}
-          className={i === activeIndex ? 'is-active' : ''}
-        >
-          {service}
-        </span>
-      ))}
-    </h2>
+    <section className="studio-services">
+      <div className="studio-services-text">
+        <span className="studio-services-eyebrow">Services</span>
+        <h2 className="studio-services-heading" onMouseLeave={() => setActiveIndex(null)}>
+          {items.map((service, i) => (
+            <span
+              key={service.name}
+              className={i === activeIndex ? 'is-active' : ''}
+              onMouseEnter={() => setActiveIndex(i)}
+            >
+              {service.name}
+            </span>
+          ))}
+        </h2>
+      </div>
+
+      <div className="studio-services-preview">
+        {items.map((service, i) => (
+          <div
+            key={service.name}
+            className={`studio-services-preview-item${i === activeIndex ? ' is-visible' : ''}`}
+            style={{ top: service.position.top, left: service.position.left }}
+          >
+            <div className="studio-services-preview-image">
+              <img src={service.image} alt={service.name} loading="lazy" />
+            </div>
+            <p className="studio-services-preview-copy">{service.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -135,6 +182,37 @@ function ClientsIntro() {
   )
 }
 
+function TeamSection() {
+  return (
+    <section className="studio-team">
+      <span className="studio-team-eyebrow">Team</span>
+      <div className="studio-team-grid">
+        {teamMembers.map((member) => (
+          <div className="studio-team-card" key={member.name}>
+            <div className="studio-team-card-image">
+              <img src={member.image} alt={member.name} loading="lazy" />
+            </div>
+            <div className="studio-team-card-caption">
+              <p>{member.name}</p>
+              <p>{member.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p className="studio-team-copy">{teamCopy}</p>
+    </section>
+  )
+}
+
+function CultureSection() {
+  return (
+    <section className="studio-culture">
+      <span className="studio-culture-eyebrow">Cultura</span>
+    </section>
+  )
+}
+
 function Studio() {
   return (
     <>
@@ -144,19 +222,7 @@ function Studio() {
         <p className="studio-copy">{methodologyCopy}</p>
       </section>
 
-      <section className="studio-services">
-        <div className="studio-services-text">
-          <span className="studio-services-eyebrow">Services</span>
-          <ServicesList items={services} />
-        </div>
-        <div className="studio-services-images">
-          <ProjectsCarousel
-            images={servicesCarouselImages}
-            duration={28}
-            orientation="vertical"
-          />
-        </div>
-      </section>
+      <ServicesSection items={services} />
 
       <section className="studio-tagline">
         <h2 className="studio-tagline-ideas">Where ideas</h2>
@@ -167,6 +233,10 @@ function Studio() {
       </section>
 
       <ClientsIntro />
+
+      <TeamSection />
+
+      <CultureSection />
 
       <section className="studio-images">
         <div className="studio-image studio-image--static">
